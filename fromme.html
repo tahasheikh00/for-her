@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For You ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet" />
+
+<style>
+  body {
+    margin:0; padding:0; overflow:hidden; font-family:'Caveat', cursive;
+    background: linear-gradient(135deg, #ffd6e8, #ffe9f3);
+    height:100vh; width:100vw; position: relative;
+  }
+
+  /* ❤️ Floating hearts */
+  .heart {
+    color: #ff8fb7;
+    font-size: 22px;
+    opacity: 0.7;
+    animation: floatUp 6s linear infinite;
+    position: fixed;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity:0.8; }
+    100% { transform: translateY(-120vh) scale(1.6); opacity:0; }
+  }
+
+  /* Slides */
+  .slide {
+    position: absolute; top:0; left:0; height:100vh; width:100vw;
+    display:flex; flex-direction:column; justify-content:center;
+    align-items:center; opacity:0; transition: opacity 1s ease;
+    padding: 20px; text-align:center; font-size:1.8rem;
+  }
+  .active { opacity:1; pointer-events:auto; }
+  .hidden { pointer-events:none; }
+
+  .doodle-frame {
+    border:3px dashed #ff9ec9; padding:25px; border-radius:22px;
+    box-shadow:0 0 8px rgba(255,150,180,0.4);
+  }
+
+  /* Envelope */
+  #envelope {
+    width:180px; cursor:pointer;
+    transition: transform 0.7s ease; 
+    transform-origin: top;
+  }
+  #envelope.opened {
+    transform: rotateX(180deg) scale(1.1);
+  }
+
+  /* Teddy */
+  #teddy-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 130px;
+    height: 130px;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  /* 📝 Letter Popup */
+  #letterPopup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+  }
+
+  /* Letter paper */
+  #letterPaper {
+    background: #fffdf7;
+    width: 85vw;
+    max-width: 600px;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 22px rgba(0,0,0,0.25);
+    max-height: 75vh;
+    overflow-y: auto;
+    transform-origin: top;
+    animation: openLetter 0.7s ease forwards;
+    font-size: 1.45rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+
+  @keyframes openLetter {
+    0% { transform: rotateX(-90deg) scale(0.7); opacity:0; }
+    100% { transform: rotateX(0) scale(1); opacity:1; }
+  }
+
+  /* FIXED Close button (no scrolling away!) */
+  #closeLetterBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 300;
+    background:#ff8fa8;
+    border:none;
+    color:white;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    font-size:1.6rem;
+    cursor:pointer;
+    box-shadow:0 0 10px rgba(0,0,0,0.25);
+    display: none;
+  }
+
+</style>
+</head>
+<body>
+
+<script>
+  // Floating hearts
+  function spawnHearts() {
+    for (let i = 0; i < 12; i++) {
+      let h = document.createElement('div');
+      h.className = 'heart';
+      h.innerHTML = '❤️';
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.bottom = '-20px';
+      h.style.animation = `floatUp 6s linear ${Math.random()*6}s infinite`;
+      document.body.appendChild(h);
+    }
+  }
+  spawnHearts();
+</script>
+
+<!-- SLIDES -->
+<div id="slide1" class="slide active">
+  <div class="doodle-frame">Hi love… I made something for you.</div>
+  <div style="font-size:1rem;margin-top:20px;opacity:0.6;">Tap anywhere to continue</div>
+</div>
+<div id="slide2" class="slide hidden">
+  <div class="doodle-frame">Since I can’t be with you… I wanted to write you a letter.</div>
+  <div style="font-size:1rem;margin-top:20px;opacity:0.6;">Tap</div>
+</div>
+<div id="slide3" class="slide hidden">
+  <div class="doodle-frame">But in a silly way...</div>
+  <div style="font-size:1rem;margin-top:20px;opacity:0.6;">Tap</div>
+</div>
+<div id="slide4" class="slide hidden">
+  <div class="doodle-frame">Here goes an attempt to make you smile on your special day...</div>
+  <div style="font-size:1rem;margin-top:20px;opacity:0.6;">Tap</div>
+</div>
+
+<!-- ENVELOPE SLIDE -->
+<div id="slide5" class="slide hidden">
+  <svg id="envelope" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <rect width="64" height="48" y="8" fill="#ffd6e8" stroke="#ff8fb7" stroke-width="2" rx="4"/>
+    <polyline points="0,8 32,32 64,8" fill="none" stroke="#ff8fb7" stroke-width="2"/>
+  </svg>
+  <div style="font-size:1rem;margin-top:15px;opacity:0.7;">Tap the envelope</div>
+</div>
+
+<!-- LETTER POPUP -->
+<div id="letterPopup">
+  <div id="letterPaper">
+It sucks to be far from you, especially tonight when it's such an important day. 
+Uff, I don't know where to begin, because there is so much to say that all the time in the world is not enough.
+That random evening at the book club changed my life, because that evening I saw you for the first time, I listened to you talk, I noticed you just sit in that corner listening to others, and boi how gorgeous you looked.
+I don't know if there is a thing such as "love at first sight", but my heart was so convinced and so in love that I wanted to make you mine... I know it sounds silly, but it was like I had found the person I needed the most. I had found you!
+And then began all the silly nights of me being an idiot during our conversations and trying to impress you, and what not. Every minute of those nights would make me nervous because I had to be so careful about the things I do and say just to impress you, haha. It was so silly but I loved how you gave me a hard time and did not give in so easily. You were testing me, and I knew that hehe.
+But I don't know whatever I did that convinced you that you could trust me a little and then here we are. We have come so far, haven't we? It feels so unreal when I think about it...
+I love how you love me, how you own me and make me feel. You are clear and loud about the fact that you love me, and that makes me so happy that I could literally cry till my nose bleeds because never in my lifetime had I expected someone to love me like that. But you do, and you make me know it, every second of every hour... Ugh, I am the luckiest person in the world.
+I'm so in love with you, you know. You have become the most important person in my life that even if I take a new route on the way to work or eat something different, you are the first and only person who pops up in my mind, the person I want to tell first about anything. I have always been a very secretive person, you know. I never tell anyone anything. Even my family does not hear much about what is happening in my life. But you changed that. I love talking to you and I love being listened.
+I wish this letter was a physical paper and I was there to give it to you myself, and then I could just hug you and kiss you lots. But ah, this stupid distance between us. I hate it so much.
+I can't wait to make so many good memories with you, my love. I can't wait to begin a family with you, to live and laugh and cook and eat and cry and be silent and be loud and argue and do adventures and travel and lazy around, all with you. I truly cannot wait for it. You make me so proud.
+Also, you are so freaking beautiful. Your big innocent eyes and your pretty hair bun, your cheeks, your chin, you mesmerizing lips, your prettiest smile, oh gosh... I'd faint in real life if you give me one more smile.
+I thought and thought about what to do on your birthday and I did not just want to send over a gift and be done with it, so this was a little gesture. I know it's not much. But I give you my heart and a promise that it's yours forever and yours alone.
+I love you so much Rumessa, and I wish you a very happy, warm and cheerful birthday.
+To the love of my life.
+
+Yours truly,
+A silly little guy
+  </div>
+</div>
+
+<!-- FIXED CLOSE BUTTON -->
+<button id="closeLetterBtn">×</button>
+
+<!-- Teddy Lottie -->
+<div id="teddy-container"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.4/lottie.min.js"></script>
+
+<script>
+  // Teddy animation
+  lottie.loadAnimation({
+    container: document.getElementById('teddy-container'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'cute-teddy-bear-with-a-gift.json'
+  });
+
+  // Slide navigation
+  let current = 1;
+  const next = () => {
+    if(current < 5){
+      document.getElementById(`slide${current}`).classList.remove('active');
+      document.getElementById(`slide${current}`).classList.add('hidden');
+      current++;
+      document.getElementById(`slide${current}`).classList.add('active');
+      document.getElementById(`slide${current}`).classList.remove('hidden');
+    }
+  };
+
+  document.body.addEventListener('click', (e) => {
+    if(current < 5 && e.target.id !== 'envelope') next();
+  });
+
+  // Envelope click → flip + letter popup
+  const envelope = document.getElementById('envelope');
+
+  envelope.addEventListener('click', e => {
+    e.stopPropagation();
+    envelope.classList.add('opened');
+
+    setTimeout(()=>{
+      document.getElementById('slide5').classList.remove('active');
+      document.getElementById('slide5').classList.add('hidden');
+      document.getElementById('letterPopup').style.display = "flex";
+      document.getElementById('letterPaper').scrollTop = 0;
+      document.getElementById('closeLetterBtn').style.display = "block";
+    },600);
+  });
+
+  // Close letter
+  document.getElementById("closeLetterBtn").onclick = () => {
+    document.getElementById('letterPopup').style.display = "none";
+    document.getElementById('closeLetterBtn').style.display = "none";
+    envelope.classList.remove('opened');
+  };
+</script>
+
+</body>
+</html>
